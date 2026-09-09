@@ -1,0 +1,66 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.cta {
+  position: relative;
+  overflow: hidden;
+  color: $ivory;
+  background:
+    radial-gradient(60% 60% at 50% 110%, rgba(61, 44, 207, 0.55) 0%, transparent 60%),
+    linear-gradient(180deg, $blue-night 0%, $blue-deep 100%);
+  @include section-space(1.2, 1.2);
+  text-align: center;
+}
+
+.cta__particles {
+  z-index: 0;
+}
+
+.cta__halo {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  width: min(760px, 90vw);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 169, 97, 0.14), transparent 62%);
+  filter: blur(30px);
+  pointer-events: none;
+}
+
+.cta__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: fluid(20, 28);
+}
+
+.cta__logo {
+  opacity: 0.9;
+  margin-bottom: 8px;
+}
+
+.cta__title {
+  max-width: 16ch;
+}
+
+.cta__text {
+  max-width: 46ch;
+  color: rgba(245, 240, 230, 0.75);
+}
+
+.cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.cta__hairline {
+  margin-top: fluid(44, 72);
+  max-width: 520px;
+}

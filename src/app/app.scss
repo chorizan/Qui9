@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  isolation: isolate;
+}
+
+main {
+  display: block;
+  min-height: 60vh;
+  background: var(--c-white-warm);
+}

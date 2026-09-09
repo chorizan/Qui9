@@ -1,0 +1,61 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+:host {
+  display: inline-flex;
+}
+
+.logo {
+  --logo-size: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+
+  &--stacked {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &--lockup {
+    gap: 9px;
+    align-items: center;
+  }
+}
+
+// Símbolo completo: máscara del PNG, toma el color del texto que lo rodea.
+.logo__mark {
+  display: block;
+  height: var(--logo-size);
+  // Relación de aspecto real del logotipo (391 × 342).
+  width: calc(var(--logo-size) * 1.1433);
+  background-color: currentColor;
+  mask: url('/assets/brand/qui9-mark.png') no-repeat center / contain;
+  -webkit-mask: url('/assets/brand/qui9-mark.png') no-repeat center / contain;
+  transition: transform 0.6s $ease-out-expo;
+}
+
+// Versión reducida: racimo + nombre.
+.logo__panicle {
+  display: block;
+  height: calc(var(--logo-size) * 1.08);
+  width: auto;
+  opacity: 0.95;
+}
+
+.logo__word {
+  font-family: $font-display;
+  font-size: calc(var(--logo-size) * 0.98);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: 0.005em;
+}
+
+.logo__nine {
+  font-size: 1.14em;
+  padding-left: 0.02em;
+}
+
+:host(:hover) .logo__mark {
+  transform: translateY(-2px) scale(1.03);
+}

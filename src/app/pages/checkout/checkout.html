@@ -1,0 +1,219 @@
+<section class="checkout">
+  <div class="container">
+    @if (confirmation(); as order) {
+      <!-- Confirmación -->
+      <div class="confirm">
+        <span class="confirm__mark" aria-hidden="true"></span>
+        <p class="t-eyebrow confirm__eyebrow">Pedido registrado</p>
+        <h1 class="t-display">Gracias por tu compra.</h1>
+        <p class="t-lead">
+          Hemos registrado tu pedido con la referencia
+          <strong>{{ order.reference }}</strong
+          >. Te escribiremos con los pasos del pago y la entrega.
+        </p>
+        <dl class="confirm__data">
+          <div>
+            <dt class="t-eyebrow">Total</dt>
+            <dd>{{ order.total | price }}</dd>
+          </div>
+          <div>
+            <dt class="t-eyebrow">Estado</dt>
+            <dd>Pendiente de pago</dd>
+          </div>
+        </dl>
+        <div class="confirm__actions">
+          <a class="btn btn--dark" routerLink="/productos">Seguir comprando</a>
+          <a class="btn btn--outline-dark" routerLink="/">Volver al inicio</a>
+        </div>
+        <p class="confirm__note t-small">
+          Demostración sin pasarela de pago: no se ha realizado ningún cobro.
+        </p>
+      </div>
+    } @else {
+      <header class="checkout__head">
+        <p class="t-eyebrow eyebrow-mark">Finalizar compra</p>
+        <h1 class="t-title">Últimos datos y listo.</h1>
+      </header>
+
+      <div class="checkout__layout">
+        <!-- Formulario -->
+        <form class="checkout__form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+          <fieldset class="fieldset">
+            <legend class="fieldset__legend">01 · Tus datos</legend>
+
+            <div class="field-grid">
+              <div class="field">
+                <label for="firstName">Nombre</label>
+                <input id="firstName" type="text" formControlName="firstName" autocomplete="given-name" />
+                @if (invalid('firstName')) {
+                  <p class="field__error">Indica tu nombre.</p>
+                }
+              </div>
+
+              <div class="field">
+                <label for="lastName">Apellido</label>
+                <input id="lastName" type="text" formControlName="lastName" autocomplete="family-name" />
+                @if (invalid('lastName')) {
+                  <p class="field__error">Indica tu apellido.</p>
+                }
+              </div>
+
+              <div class="field">
+                <label for="email">Correo</label>
+                <input id="email" type="email" formControlName="email" autocomplete="email" />
+                @if (invalid('email')) {
+                  <p class="field__error">Revisa el formato del correo.</p>
+                }
+              </div>
+
+              <div class="field">
+                <label for="phone">Teléfono</label>
+                <input id="phone" type="tel" formControlName="phone" autocomplete="tel" />
+                @if (invalid('phone')) {
+                  <p class="field__error">Indica un teléfono de contacto.</p>
+                }
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="fieldset">
+            <legend class="fieldset__legend">02 · Entrega</legend>
+
+            <div class="options" role="radiogroup" aria-label="Método de entrega">
+              @for (option of deliveryOptions; track option.id) {
+                <label class="option">
+                  <input type="radio" formControlName="delivery" [value]="option.id" />
+                  <span class="option__body">
+                    <span class="option__label">{{ option.label }}</span>
+                    <span class="option__note t-small">{{ option.note }}</span>
+                  </span>
+                </label>
+              }
+            </div>
+
+            <div class="field-grid">
+              <div class="field field--full">
+                <label for="address">Dirección</label>
+                <input id="address" type="text" formControlName="address" autocomplete="street-address" />
+                @if (invalid('address')) {
+                  <p class="field__error">Indica la dirección de entrega.</p>
+                }
+              </div>
+
+              <div class="field">
+                <label for="district">Distrito</label>
+                <input id="district" type="text" formControlName="district" />
+                @if (invalid('district')) {
+                  <p class="field__error">Indica el distrito.</p>
+                }
+              </div>
+
+              <div class="field">
+                <label for="province">Provincia</label>
+                <input id="province" type="text" formControlName="province" />
+                @if (invalid('province')) {
+                  <p class="field__error">Indica la provincia.</p>
+                }
+              </div>
+
+              <div class="field">
+                <label for="department">Departamento</label>
+                <select id="department" formControlName="department">
+                  @for (dep of departamentos; track dep) {
+                    <option [value]="dep">{{ dep }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="field field--full">
+                <label for="notes">Referencias (opcional)</label>
+                <textarea id="notes" rows="3" formControlName="notes"></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="fieldset">
+            <legend class="fieldset__legend">03 · Pago</legend>
+
+            <div class="options options--grid" role="radiogroup" aria-label="Método de pago">
+              @for (option of paymentOptions; track option.id) {
+                <label class="option">
+                  <input type="radio" formControlName="payment" [value]="option.id" />
+                  <span class="option__body">
+                    <span class="option__label">{{ option.label }}</span>
+                    <span class="option__note t-small">{{ option.note }}</span>
+                  </span>
+                </label>
+              }
+            </div>
+
+            <p class="checkout__legal t-small">
+              Interfaz preparada para integrar una pasarela de pago. En esta versión el pedido se
+              registra sin cobro.
+            </p>
+          </fieldset>
+
+          <button
+            type="submit"
+            class="btn btn--dark checkout__submit"
+            [disabled]="submitting() || cart.isEmpty()"
+          >
+            {{ submitting() ? 'Procesando…' : 'Confirmar pedido' }}
+            <span class="btn__icon" aria-hidden="true">→</span>
+          </button>
+        </form>
+
+        <!-- Resumen -->
+        <aside class="summary" aria-label="Resumen del pedido">
+          <h2 class="summary__title">Resumen del pedido</h2>
+
+          @if (cart.isEmpty()) {
+            <p class="summary__empty t-body">
+              Tu carrito está vacío.
+              <a class="link-underline" routerLink="/productos">Ver productos</a>
+            </p>
+          } @else {
+            <ul class="summary__items">
+              @for (item of cart.items(); track item.product.id) {
+                <li class="summary__item">
+                  <span class="summary__media">
+                    <app-img [image]="item.product.image" sizes="72px" />
+                  </span>
+                  <span class="summary__body">
+                    <span class="summary__name">{{ item.product.name }}</span>
+                    <app-quantity-stepper
+                      [quantity]="item.quantity"
+                      [compact]="true"
+                      [label]="item.product.name"
+                      (quantityChange)="cart.setQuantity(item.product.id, $event)"
+                    />
+                  </span>
+                  <span class="summary__price t-mono-num">
+                    {{ item.product.price * item.quantity | price }}
+                  </span>
+                </li>
+              }
+            </ul>
+
+            <dl class="summary__totals">
+              <div>
+                <dt>Subtotal</dt>
+                <dd class="t-mono-num">{{ cart.summary().subtotal | price }}</dd>
+              </div>
+              <div>
+                <dt>Envío</dt>
+                <dd class="t-mono-num">
+                  {{ cart.summary().shipping === 0 ? 'Sin coste' : (cart.summary().shipping | price) }}
+                </dd>
+              </div>
+              <div class="summary__total">
+                <dt>Total</dt>
+                <dd class="t-mono-num">{{ cart.summary().total | price }}</dd>
+              </div>
+            </dl>
+          }
+        </aside>
+      </div>
+    }
+  </div>
+</section>

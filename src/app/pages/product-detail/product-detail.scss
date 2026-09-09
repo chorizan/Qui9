@@ -1,0 +1,320 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.pdp {
+  background: $white-warm;
+  color: $blue-night;
+}
+
+.pdp__top {
+  padding-top: fluid(110, 150);
+}
+
+.pdp__crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: $stone;
+  margin-bottom: fluid(24, 42);
+
+  a {
+    transition: color 0.3s ease;
+    @include focus-ring($blue-deep);
+
+    &:hover {
+      color: $blue-deep;
+    }
+  }
+
+  [aria-current] {
+    color: $blue-deep;
+  }
+}
+
+.pdp__layout {
+  display: grid;
+  gap: fluid(32, 64);
+
+  @include from(lg) {
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: start;
+  }
+}
+
+/* --- Medios ------------------------------------------------------- */
+.pdp__media {
+  position: relative;
+
+  @include from(lg) {
+    position: sticky;
+    top: 100px;
+  }
+}
+
+.pdp__stage {
+  border-radius: 22px;
+  overflow: hidden;
+  background: linear-gradient(160deg, $ivory 0%, $beige 100%);
+  padding: fluid(10, 20);
+}
+
+.pdp__photo {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.pdp__thumbs {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.pdp__thumb {
+  flex: none;
+  width: 78px;
+  height: 78px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: $ivory;
+  border: 1px solid transparent;
+  transition:
+    border-color 0.35s $ease-out-expo,
+    transform 0.35s $ease-out-expo;
+  @include focus-ring($blue-deep);
+
+  app-img {
+    height: 100%;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &.is-active {
+    border-color: $blue-deep;
+  }
+
+  &--3d {
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: $blue-deep;
+    background: rgba(13, 5, 111, 0.07);
+  }
+}
+
+/* --- Información -------------------------------------------------- */
+.pdp__info {
+  display: flex;
+  flex-direction: column;
+  gap: fluid(16, 22);
+}
+
+.pdp__tagline {
+  color: $gold;
+}
+
+.pdp__name {
+  color: $blue-deep;
+}
+
+.pdp__desc {
+  color: $stone-dark;
+  max-width: 48ch;
+}
+
+.pdp__buy {
+  margin-top: 8px;
+  padding: fluid(20, 28);
+  border-radius: 18px;
+  background: $ivory;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.pdp__price-block {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.pdp__price {
+  font-family: $font-display;
+  font-size: fluid(34, 46);
+  line-height: 1;
+  color: $blue-deep;
+}
+
+.pdp__presentation {
+  color: $stone;
+}
+
+.pdp__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.pdp__add {
+  flex: 1;
+  min-width: 200px;
+}
+
+.pdp__ship {
+  color: $stone;
+}
+
+.pdp__features {
+  display: grid;
+  gap: 10px;
+  margin-top: 6px;
+
+  li {
+    position: relative;
+    padding-left: 20px;
+    font-size: 14px;
+    color: $stone-dark;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      background: $gold;
+    }
+  }
+}
+
+.pdp__attrs {
+  display: grid;
+  gap: 18px;
+  margin-top: 10px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(13, 5, 111, 0.1);
+
+  @include from(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  dt {
+    color: $stone;
+    margin-bottom: 6px;
+  }
+
+  dd {
+    font-family: $font-display;
+    font-size: 20px;
+    color: $blue-deep;
+  }
+}
+
+/* --- Bloques inferiores ------------------------------------------- */
+.pdp__why {
+  background: $ivory;
+}
+
+.pdp__why-title {
+  color: $blue-deep;
+  margin-bottom: fluid(30, 46);
+  max-width: 20ch;
+}
+
+.pdp__reasons {
+  display: grid;
+  gap: fluid(22, 32);
+
+  @include from(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include from(lg) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: fluid(20, 26);
+    border-radius: 16px;
+    background: $white-warm;
+  }
+
+  h3 {
+    color: $blue-deep;
+  }
+
+  p {
+    color: $stone-dark;
+  }
+}
+
+.pdp__reason-icon {
+  width: 26px;
+  height: 26px;
+  color: $gold;
+  margin-bottom: 10px;
+}
+
+.pdp__nutrition {
+  background: $white-warm;
+}
+
+.pdp__nutrition-inner {
+  display: grid;
+  gap: fluid(30, 56);
+  align-items: center;
+
+  @include from(lg) {
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+
+  h2 {
+    color: $blue-deep;
+    margin-block: 14px;
+  }
+}
+
+.pdp__nut-eyebrow {
+  color: $gold;
+}
+
+.pdp__nut-text {
+  color: $stone-dark;
+  max-width: 40ch;
+}
+
+.pdp__related {
+  background: $ivory;
+
+  h2 {
+    color: $blue-deep;
+    margin-bottom: fluid(28, 44);
+  }
+}
+
+.pdp__related-grid {
+  display: grid;
+  gap: fluid(20, 30);
+
+  @include from(md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

@@ -1,0 +1,104 @@
+@use 'sass:map';
+@use 'sass:math';
+@use 'tokens' as *;
+
+/// Media query "mobile first" — a partir de un breakpoint.
+@mixin from($key) {
+  @if map.has-key($bp, $key) {
+    @media (min-width: map.get($bp, $key)) {
+      @content;
+    }
+  } @else {
+    @media (min-width: $key) {
+      @content;
+    }
+  }
+}
+
+/// Media query descendente — hasta un breakpoint (exclusivo).
+@mixin until($key) {
+  @if map.has-key($bp, $key) {
+    @media (max-width: (map.get($bp, $key) - 0.02px)) {
+      @content;
+    }
+  } @else {
+    @media (max-width: $key) {
+      @content;
+    }
+  }
+}
+
+/// Contenedor central con gutters progresivos.
+@mixin container($width: $max-width) {
+  width: 100%;
+  max-width: $width;
+  margin-inline: auto;
+  padding-inline: $gutter-mobile;
+
+  @include from(md) {
+    padding-inline: $gutter-tablet;
+  }
+  @include from(xl) {
+    padding-inline: $gutter-desktop;
+  }
+}
+
+/// Escala fluida entre dos tamaños (min en 375px, max en 1440px).
+@function fluid($min, $max, $min-vw: 375, $max-vw: 1440) {
+  $slope: math.div($max - $min, $max-vw - $min-vw);
+  $intercept: $min - $slope * $min-vw;
+  @return clamp(
+    #{$min}px,
+    #{$intercept}px + #{$slope * 100}vw,
+    #{$max}px
+  );
+}
+
+/// Bloque de sección vertical.
+@mixin section-space($top: 1, $bottom: 1) {
+  padding-top: calc(#{fluid(72, 160)} * #{$top});
+  padding-bottom: calc(#{fluid(72, 160)} * #{$bottom});
+}
+
+/// Superficie de vidrio muy sutil sobre azul.
+@mixin glass($alpha: 0.05) {
+  background: rgba(255, 255, 255, $alpha);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/// Foco accesible coherente en toda la web.
+@mixin focus-ring($color: $gold) {
+  &:focus-visible {
+    outline: 2px solid $color;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/// Oculta visualmente pero mantiene accesible para lectores de pantalla.
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/// Respeta la preferencia de movimiento reducido.
+@mixin motion-safe {
+  @media (prefers-reduced-motion: no-preference) {
+    @content;
+  }
+}
+
+@mixin motion-reduce {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}

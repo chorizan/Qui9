@@ -1,0 +1,67 @@
+<div class="viewer" [class.viewer--compact]="compact()" [class.viewer--light]="theme() === 'light'">
+  <div class="viewer__stage" #stage appCursor="drag" cursorLabel="Gira">
+    @if (canRender()) {
+      <canvas
+        #canvas
+        class="viewer__canvas"
+        role="img"
+        [attr.aria-label]="fallbackImage().alt + '. Modelo 3D interactivo: arrastra para girar.'"
+      ></canvas>
+
+      @if (loading()) {
+        <div class="viewer__loading">
+          <span class="viewer__spinner" aria-hidden="true"></span>
+          <span class="t-eyebrow">Cargando 3D</span>
+        </div>
+      }
+    } @else {
+      <!-- Fallback 2D: misma presencia visual sin WebGL -->
+      <app-img class="viewer__fallback" [image]="fallbackImage()" sizes="(min-width: 1024px) 45vw, 90vw" fit="contain" />
+    }
+
+    <span class="viewer__glow" aria-hidden="true"></span>
+  </div>
+
+  @if (showControls() && canRender()) {
+    <div class="viewer__controls" role="group" aria-label="Controles del visor 3D">
+      <button
+        type="button"
+        class="viewer__btn"
+        (click)="toggleRotation()"
+        [attr.aria-pressed]="rotating()"
+        aria-label="Alternar giro automático"
+      >
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M20 12a8 8 0 1 1-2.6-5.9M20 4.5V9h-4.5"
+            stroke="currentColor"
+            stroke-width="1.3"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
+
+      <button type="button" class="viewer__btn" (click)="zoom(0.82)" aria-label="Acercar">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="11" cy="11" r="6.2" stroke="currentColor" stroke-width="1.3" />
+          <path d="M15.6 15.6L20 20M8.6 11h4.8M11 8.6v4.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+        </svg>
+      </button>
+
+      <button type="button" class="viewer__btn" (click)="zoom(1.22)" aria-label="Alejar">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="11" cy="11" r="6.2" stroke="currentColor" stroke-width="1.3" />
+          <path d="M15.6 15.6L20 20M8.6 11h4.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+        </svg>
+      </button>
+
+      <span class="viewer__sep" aria-hidden="true"></span>
+
+      <button type="button" class="viewer__chip" (click)="view('front')">Frente</button>
+      <button type="button" class="viewer__chip" (click)="view('side')">Lateral</button>
+      <button type="button" class="viewer__chip" (click)="reset()">Reiniciar</button>
+    </div>
+
+    <p class="viewer__hint t-small">Arrastra para girar · Rueda para acercar</p>
+  }
+</div>

@@ -1,0 +1,41 @@
+<article class="card" [style.--i]="index()" appCursor="view" cursorLabel="Ver">
+  <a class="card__link" [routerLink]="['/productos', product().slug]">
+    <span class="sr-only">Ver ficha de {{ product().name }}</span>
+  </a>
+
+  <div class="card__media">
+    <span class="card__grain" [style.background]="product().grainColor" aria-hidden="true"></span>
+    <app-img [image]="product().image" [sizes]="sizes()" />
+    @if (!product().available) {
+      <span class="card__badge">Agotado</span>
+    }
+  </div>
+
+  <div class="card__body">
+    <p class="t-eyebrow card__variety">{{ product().tagline }}</p>
+    <h3 class="card__name">{{ product().name }}</h3>
+    <p class="card__desc t-small">{{ product().description }}</p>
+
+    <div class="card__foot">
+      <div class="card__price-block">
+        <span class="card__weight t-small">{{ product().weightGrams }} g</span>
+        <span class="card__price t-mono-num">{{ product().price | price }}</span>
+      </div>
+
+      <button
+        type="button"
+        class="card__buy"
+        (click)="addToCart($event)"
+        [disabled]="!product().available"
+        [attr.aria-label]="'Añadir ' + product().name + ' al carrito'"
+      >
+        <span class="card__buy-text">Comprar</span>
+        <span class="card__buy-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.3" />
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</article>

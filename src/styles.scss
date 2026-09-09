@@ -1,0 +1,8 @@
+// =============================================================
+// QUI9 — hoja de estilos global
+// El orden importa: tokens → base → tipografía → utilidades
+// =============================================================
+@use 'styles/tokens';
+@use 'styles/base';
+@use 'styles/typography';
+@use 'styles/utilities';

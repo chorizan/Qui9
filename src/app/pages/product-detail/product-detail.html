@@ -1,0 +1,166 @@
+@if (product(); as item) {
+  <article class="pdp">
+    <div class="container pdp__top">
+      <nav class="pdp__crumbs t-small" aria-label="Ruta de navegación">
+        <a routerLink="/">Inicio</a>
+        <span aria-hidden="true">/</span>
+        <a routerLink="/productos">Productos</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{{ item.shortName }}</span>
+      </nav>
+
+      <div class="pdp__layout">
+        <!-- Medios: visor 3D + galería -->
+        <div class="pdp__media">
+          <div class="pdp__stage">
+            @if (activeMedia() === 0) {
+              <app-product-viewer
+                [fallbackImage]="item.image"
+                [grainColor]="item.grainColor"
+                [modelUrl]="item.model3D ?? 'assets/3d/quinoa.glb'"
+                [compact]="true"
+                theme="light"
+              />
+            } @else {
+              <app-img
+                class="pdp__photo"
+                [image]="item.gallery[activeMedia() - 1]"
+                sizes="(min-width: 1024px) 46vw, 92vw"
+                fit="cover"
+              />
+            }
+          </div>
+
+          <div class="pdp__thumbs" role="group" aria-label="Galería del producto">
+            <button
+              type="button"
+              class="pdp__thumb pdp__thumb--3d"
+              [class.is-active]="activeMedia() === 0"
+              (click)="activeMedia.set(0)"
+              aria-label="Ver el producto en 3D"
+            >
+              <span aria-hidden="true">3D</span>
+            </button>
+
+            @for (media of item.gallery; track media.base; let i = $index) {
+              <button
+                type="button"
+                class="pdp__thumb"
+                [class.is-active]="activeMedia() === i + 1"
+                (click)="activeMedia.set(i + 1)"
+                [attr.aria-label]="'Ver imagen ' + (i + 1)"
+              >
+                <app-img [image]="media" sizes="90px" />
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Información y compra -->
+        <div class="pdp__info">
+          <p class="t-eyebrow pdp__tagline">{{ item.tagline }}</p>
+          <h1 class="t-title pdp__name">{{ item.name }}</h1>
+          <p class="t-lead pdp__desc">{{ item.longDescription }}</p>
+
+          <div class="pdp__buy">
+            <div class="pdp__price-block">
+              <span class="pdp__price">{{ item.price | price }}</span>
+              <span class="pdp__presentation t-small">{{ item.presentation }}</span>
+            </div>
+
+            <div class="pdp__actions">
+              <app-quantity-stepper
+                [quantity]="quantity()"
+                [label]="item.name"
+                (quantityChange)="quantity.set($event)"
+              />
+              <button
+                type="button"
+                class="btn btn--dark pdp__add"
+                (click)="addToCart()"
+                [disabled]="!item.available"
+                appMagnetic
+                appCursor="link"
+              >
+                {{ item.available ? 'Añadir al carrito' : 'No disponible' }}
+                <span class="btn__icon" aria-hidden="true">→</span>
+              </button>
+            </div>
+
+            <p class="pdp__ship t-small">
+              Envío sin coste a partir de S/ 120 · Entrega estimada 2–5 días hábiles.
+            </p>
+          </div>
+
+          <ul class="pdp__features">
+            @for (feature of item.features; track feature) {
+              <li>{{ feature }}</li>
+            }
+          </ul>
+
+          <dl class="pdp__attrs">
+            @for (attribute of item.attributes; track attribute.label) {
+              <div>
+                <dt class="t-eyebrow">{{ attribute.label }}</dt>
+                <dd>{{ attribute.value }}</dd>
+              </div>
+            }
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <!-- Por qué elegirla -->
+    <section class="pdp__why section section--light" aria-labelledby="why-title">
+      <div class="container">
+        <h2 class="t-title pdp__why-title" id="why-title">¿Por qué elegir nuestra quinua?</h2>
+        <ul class="pdp__reasons" appReveal revealChildren="li" [revealStagger]="0.1">
+          @for (reason of reasons; track reason.title) {
+            <li>
+              <svg class="pdp__reason-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  [attr.d]="reason.icon"
+                  stroke="currentColor"
+                  stroke-width="1.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <h3 class="t-heading">{{ reason.title }}</h3>
+              <p class="t-small">{{ reason.text }}</p>
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Nutrición -->
+    <section class="pdp__nutrition section section--light" aria-labelledby="pdp-nut">
+      <div class="container pdp__nutrition-inner">
+        <div>
+          <p class="t-eyebrow eyebrow-mark pdp__nut-eyebrow">Información nutricional</p>
+          <h2 class="t-title" id="pdp-nut">Pequeña semilla. Gran alimento.</h2>
+          <p class="t-body pdp__nut-text">
+            Publicaremos aquí los valores del análisis de laboratorio correspondiente al lote.
+            Mientras tanto, cada métrica aparece como pendiente.
+          </p>
+        </div>
+        <app-nutrition-chart [facts]="item.nutrition" />
+      </div>
+    </section>
+
+    <!-- Relacionados -->
+    @if (related().length) {
+      <section class="pdp__related section section--light" aria-labelledby="related-title">
+        <div class="container">
+          <h2 class="t-title" id="related-title">También te puede interesar</h2>
+          <div class="pdp__related-grid" appReveal revealChildren="app-product-card" [revealStagger]="0.1">
+            @for (other of related(); track other.id; let i = $index) {
+              <app-product-card [product]="other" [index]="i" />
+            }
+          </div>
+        </div>
+      </section>
+    }
+  </article>
+}

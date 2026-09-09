@@ -1,0 +1,95 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.intro {
+  position: relative;
+  background: $white-warm;
+  color: $blue-night;
+  padding-top: fluid(90, 170);
+  overflow: hidden;
+}
+
+// La onda toma el azul del hero y lo funde con el fondo marfil.
+.intro__wave {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 100%;
+  height: fluid(60, 120);
+  color: $blue-indigo;
+  pointer-events: none;
+}
+
+.intro__inner {
+  position: relative;
+}
+
+.intro__eyebrow {
+  color: $gold;
+  margin-bottom: fluid(24, 36);
+}
+
+.intro__statement {
+  max-width: 20ch;
+  margin-bottom: fluid(48, 88);
+  color: $blue-deep;
+}
+
+.intro__grid {
+  display: grid;
+  gap: fluid(28, 56);
+  align-items: end;
+
+  @include from(lg) {
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+}
+
+.intro__text {
+  color: $stone-dark;
+  max-width: 40ch;
+}
+
+.intro__figure {
+  border-radius: 20px;
+  overflow: hidden;
+
+  figcaption {
+    padding-top: 14px;
+    color: $stone;
+    letter-spacing: 0.04em;
+  }
+}
+
+.intro__facts {
+  display: grid;
+  gap: fluid(28, 40);
+  margin-top: fluid(56, 96);
+  padding-top: fluid(32, 48);
+  border-top: 1px solid rgba(13, 5, 111, 0.1);
+
+  @include from(md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  h3 {
+    color: $blue-deep;
+  }
+
+  p {
+    color: $stone-dark;
+    max-width: 30ch;
+  }
+}
+
+.intro__fact-num {
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  color: $gold;
+}

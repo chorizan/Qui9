@@ -1,0 +1,38 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: fluid(18, 26);
+  // Medida en píxeles: `ch` se calcularía sobre la sans del contenedor y
+  // dejaba los títulos display en columnas de dos palabras.
+  max-width: min(100%, 680px);
+
+  &--center {
+    align-items: center;
+    text-align: center;
+    margin-inline: auto;
+
+    .head__eyebrow::before {
+      display: none;
+    }
+  }
+}
+
+.head__eyebrow {
+  color: $gold;
+}
+
+.head__title {
+  margin: 0;
+}
+
+.head__accent {
+  display: inline-block;
+}
+
+.head__text {
+  max-width: 52ch;
+  opacity: 0.78;
+}

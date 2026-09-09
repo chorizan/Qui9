@@ -1,0 +1,137 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.story {
+  background: $ivory;
+  color: $blue-night;
+}
+
+.timeline {
+  position: relative;
+  margin-top: fluid(56, 96);
+  display: flex;
+  flex-direction: column;
+  gap: fluid(48, 96);
+}
+
+/* Raíl y progreso ------------------------------------------------- */
+.timeline__rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 7px;
+  width: 1px;
+  background: rgba(13, 5, 111, 0.14);
+
+  @include from(lg) {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.timeline__progress {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, $blue-deep, $gold);
+  transform: scaleY(0);
+  transform-origin: top center;
+}
+
+/* Capítulo --------------------------------------------------------- */
+.chapter {
+  position: relative;
+  padding-left: 38px;
+  display: grid;
+  gap: fluid(20, 32);
+
+  @include from(lg) {
+    padding-left: 0;
+    grid-template-columns: 1fr 1fr;
+    column-gap: fluid(48, 110);
+    align-items: center;
+  }
+}
+
+.chapter__node {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  width: 15px;
+  height: 15px;
+  border-radius: 999px;
+  background: $ivory;
+  border: 1px solid rgba(13, 5, 111, 0.28);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border-radius: 999px;
+    background: $gold;
+    transform: scale(0);
+    transition: transform 0.6s $ease-out-expo;
+  }
+
+  .chapter.is-revealed &::after {
+    transform: scale(1);
+  }
+
+  @include from(lg) {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.chapter__content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  @include from(lg) {
+    .chapter--right & {
+      order: 2;
+      padding-left: fluid(20, 40);
+    }
+
+    .chapter:not(.chapter--right) & {
+      text-align: right;
+      align-items: flex-end;
+      padding-right: fluid(20, 40);
+    }
+  }
+}
+
+.chapter__index {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: $gold;
+}
+
+.chapter__title {
+  font-family: $font-display;
+  font-size: fluid(30, 46);
+  font-weight: 300;
+  line-height: 1.05;
+  color: $blue-deep;
+}
+
+.chapter__subtitle {
+  color: $stone;
+}
+
+.chapter__text {
+  color: $stone-dark;
+  max-width: 40ch;
+}
+
+.chapter__media {
+  border-radius: 18px;
+  overflow: hidden;
+
+  @include from(lg) {
+    .chapter--right & {
+      order: 1;
+    }
+  }
+}

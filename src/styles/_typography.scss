@@ -1,0 +1,96 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+/* ---------------------------------------------------------------
+   Sistema tipográfico — 2 familias: display serif + sans limpia
+   --------------------------------------------------------------- */
+
+.display,
+h1,
+h2,
+h3 {
+  font-family: $font-display;
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+// Escalas fluidas
+.t-hero {
+  font-family: $font-display;
+  font-weight: 300;
+  font-size: fluid(52, 148);
+  line-height: 0.94;
+  letter-spacing: -0.03em;
+}
+
+.t-display {
+  font-family: $font-display;
+  font-weight: 300;
+  font-size: fluid(40, 96);
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+.t-title {
+  font-family: $font-display;
+  font-weight: 300;
+  font-size: fluid(30, 60);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+
+.t-heading {
+  font-family: $font-display;
+  font-weight: 400;
+  font-size: fluid(22, 34);
+  line-height: 1.18;
+}
+
+.t-lead {
+  font-family: $font-sans;
+  font-weight: 300;
+  font-size: fluid(16, 21);
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+}
+
+.t-body {
+  font-family: $font-sans;
+  font-weight: 300;
+  font-size: fluid(15, 17);
+  line-height: 1.7;
+}
+
+.t-small {
+  font-size: fluid(13, 14);
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+// Etiqueta / kicker de sección
+.t-eyebrow {
+  font-family: $font-sans;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  line-height: 1;
+
+  @include from(lg) {
+    font-size: 12px;
+  }
+}
+
+// Cursiva serif para acentuar una palabra en los títulos
+.t-accent {
+  font-style: italic;
+  font-weight: 300;
+  color: $gold;
+}
+
+.t-mono-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}

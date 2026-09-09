@@ -1,0 +1,117 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.origin {
+  position: relative;
+  overflow: hidden;
+  color: $ivory;
+  background: $blue-night;
+  padding-block: fluid(110, 200);
+}
+
+.origin__backdrop {
+  position: absolute;
+  inset: -12% 0;
+  z-index: 0;
+
+  app-img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// Velo azul: la fotografía pasa a ser parte de la identidad, no un fondo suelto.
+.origin__veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(5, 1, 47, 0.92) 0%, rgba(13, 5, 111, 0.72) 45%, rgba(5, 1, 47, 0.95) 100%),
+    linear-gradient(90deg, rgba(13, 5, 111, 0.85) 0%, transparent 70%);
+}
+
+.origin__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: fluid(34, 60);
+
+  @include from(lg) {
+    grid-template-columns: 1.15fr 0.85fr;
+    grid-template-areas:
+      'head inset'
+      'body inset';
+    align-items: start;
+    column-gap: fluid(40, 90);
+  }
+}
+
+.origin__head {
+  @include from(lg) {
+    grid-area: head;
+  }
+}
+
+.origin__eyebrow {
+  color: $gold;
+  margin-bottom: fluid(18, 26);
+}
+
+.origin__title {
+  max-width: 12ch;
+}
+
+.origin__body {
+  display: flex;
+  flex-direction: column;
+  gap: fluid(26, 40);
+
+  @include from(lg) {
+    grid-area: body;
+    max-width: 46ch;
+  }
+
+  .t-lead {
+    color: rgba(245, 240, 230, 0.78);
+  }
+}
+
+.origin__data {
+  display: grid;
+  gap: 22px;
+
+  @include from(md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  dt {
+    color: rgba(245, 240, 230, 0.45);
+    margin-bottom: 8px;
+  }
+
+  dd {
+    font-family: $font-display;
+    font-size: fluid(19, 23);
+    color: $ivory;
+  }
+}
+
+.origin__inset {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  max-width: 420px;
+
+  @include from(lg) {
+    grid-area: inset;
+    justify-self: end;
+    max-width: none;
+  }
+
+  figcaption {
+    position: absolute;
+    left: 18px;
+    bottom: 16px;
+    color: rgba(245, 240, 230, 0.9);
+    text-shadow: 0 2px 12px rgba(3, 1, 26, 0.6);
+  }
+}

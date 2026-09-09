@@ -1,0 +1,156 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.journey {
+  background: linear-gradient(180deg, $ivory 0%, $white-warm 100%);
+  color: $blue-night;
+  overflow: hidden;
+}
+
+.journey__map {
+  position: relative;
+  margin-top: fluid(48, 80);
+
+  @include from(lg) {
+    height: 420px;
+  }
+}
+
+/* --- Trazado (sólo escritorio) -------------------------------------- */
+.journey__svg {
+  display: none;
+
+  @include from(lg) {
+    display: block;
+    position: absolute;
+    inset: 8% 0 auto;
+    width: 100%;
+    height: 260px;
+  }
+}
+
+.journey__path {
+  stroke: rgba(13, 5, 111, 0.14);
+  stroke-width: 1;
+  stroke-dasharray: 4 7;
+}
+
+.journey__trail {
+  stroke: $gold;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+/* --- Etapas ---------------------------------------------------------- */
+.journey__steps {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+
+  @include from(lg) {
+    display: block;
+    height: 100%;
+  }
+}
+
+.jstep {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+
+  @include from(lg) {
+    position: absolute;
+    width: 176px;
+    // Los nodos se centran en el punto exacto de la curva.
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+  }
+}
+
+.jstep__node {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  border: 1px solid rgba(13, 5, 111, 0.16);
+  background: $white-warm;
+  color: rgba(13, 5, 111, 0.5);
+  transition:
+    transform 0.7s $ease-out-expo,
+    border-color 0.7s $ease-out-expo,
+    color 0.7s $ease-out-expo,
+    box-shadow 0.7s $ease-out-expo;
+
+  .jstep.is-active & {
+    color: $blue-deep;
+    border-color: $gold;
+    transform: scale(1.08);
+    box-shadow: 0 12px 30px -12px rgba(13, 5, 111, 0.45);
+  }
+}
+
+.jstep__icon {
+  width: 23px;
+  height: 23px;
+}
+
+.jstep__text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  @include from(lg) {
+    align-items: center;
+  }
+}
+
+.jstep__index {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: $gold;
+}
+
+.jstep__label {
+  font-family: $font-display;
+  font-size: fluid(22, 26);
+  font-weight: 400;
+  line-height: 1.1;
+  color: $blue-deep;
+}
+
+.jstep__caption {
+  color: $stone;
+  max-width: 22ch;
+}
+
+/* Raíl vertical en móvil: mismo lenguaje, otro formato. */
+@include until(lg) {
+  .journey__steps {
+    position: relative;
+    padding-left: 8px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 26px;
+      bottom: 26px;
+      left: 34px;
+      width: 1px;
+      background: repeating-linear-gradient(
+        180deg,
+        rgba(13, 5, 111, 0.18) 0 4px,
+        transparent 4px 10px
+      );
+    }
+  }
+
+  .jstep {
+    position: relative;
+    z-index: 1;
+  }
+}

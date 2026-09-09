@@ -1,0 +1,67 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.sus {
+  position: relative;
+  overflow: hidden;
+  color: $ivory;
+  background: $blue-night;
+  @include section-space(1.1, 1.1);
+}
+
+.sus__media {
+  position: absolute;
+  inset: -10% 0;
+  z-index: 0;
+
+  app-img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.sus__veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(5, 1, 47, 0.9), rgba(13, 5, 111, 0.86)),
+    linear-gradient(90deg, rgba(3, 1, 26, 0.8), transparent 65%);
+}
+
+.sus__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: fluid(36, 64);
+
+  @include from(lg) {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.sus__pillars {
+  display: grid;
+  gap: fluid(22, 30);
+
+  @include from(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  li {
+    padding: 20px 22px;
+    border-radius: 16px;
+    @include glass(0.05);
+  }
+
+  p {
+    margin-top: 8px;
+    color: rgba(245, 240, 230, 0.62);
+  }
+}
+
+.sus__pillar-title {
+  font-family: $font-display;
+  font-size: fluid(21, 25);
+  font-weight: 400;
+}

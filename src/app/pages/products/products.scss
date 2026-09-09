@@ -1,0 +1,99 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.catalog-page {
+  background: $white-warm;
+  color: $blue-night;
+  padding-bottom: fluid(80, 140);
+}
+
+.catalog-page__hero {
+  position: relative;
+  padding-top: fluid(130, 200);
+  padding-bottom: fluid(48, 80);
+  background:
+    radial-gradient(70% 100% at 80% 0%, rgba(61, 44, 207, 0.5) 0%, transparent 62%),
+    linear-gradient(180deg, $blue-deep 0%, $blue-indigo 100%);
+  color: $ivory;
+  border-bottom-left-radius: fluid(24, 48);
+  border-bottom-right-radius: fluid(24, 48);
+}
+
+.catalog-page__eyebrow {
+  color: $gold;
+  margin-bottom: 20px;
+}
+
+.catalog-page__title {
+  margin-bottom: 20px;
+}
+
+.catalog-page__lead {
+  max-width: 52ch;
+  color: rgba(245, 240, 230, 0.72);
+}
+
+.catalog-page__body {
+  padding-top: fluid(36, 56);
+}
+
+.catalog-page__filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: fluid(28, 40);
+  border-bottom: 1px solid rgba(13, 5, 111, 0.1);
+  margin-bottom: fluid(30, 48);
+}
+
+.catalog-page__filter {
+  padding: 11px 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(13, 5, 111, 0.14);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $blue-deep;
+  transition:
+    background-color 0.4s $ease-out-expo,
+    color 0.4s $ease-out-expo,
+    border-color 0.4s $ease-out-expo;
+  @include focus-ring($blue-deep);
+
+  &:hover {
+    border-color: $blue-deep;
+  }
+
+  &.is-active {
+    background: $blue-deep;
+    border-color: $blue-deep;
+    color: $ivory;
+  }
+}
+
+.catalog-page__count {
+  margin-left: auto;
+  color: $stone;
+  letter-spacing: 0.1em;
+}
+
+.catalog-page__grid {
+  display: grid;
+  gap: fluid(22, 34);
+  grid-template-columns: 1fr;
+
+  @include from(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include from(lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.catalog-page__empty {
+  padding: 60px 0;
+  color: $stone;
+}

@@ -1,0 +1,127 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.xp {
+  position: relative;
+  overflow: hidden;
+  color: $ivory;
+  background:
+    radial-gradient(80% 60% at 15% 10%, rgba(36, 24, 171, 0.5) 0%, transparent 60%),
+    linear-gradient(180deg, $blue-deep 0%, $blue-night 100%);
+  @include section-space;
+}
+
+.xp__glow {
+  position: absolute;
+  top: 20%;
+  right: -10%;
+  width: 60vw;
+  max-width: 820px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(91, 63, 224, 0.4), transparent 66%);
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.xp__inner {
+  position: relative;
+  display: grid;
+  gap: fluid(44, 72);
+  align-items: center;
+
+  @include from(lg) {
+    grid-template-columns: 0.95fr 1.05fr;
+  }
+}
+
+.xp__head {
+  display: flex;
+  flex-direction: column;
+  gap: fluid(30, 44);
+}
+
+.xp__caps {
+  display: grid;
+  gap: 22px;
+
+  @include from(md) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 26px 32px;
+  }
+
+  li {
+    padding-left: 16px;
+    border-left: 1px solid rgba(201, 169, 97, 0.4);
+  }
+
+  p {
+    color: rgba(245, 240, 230, 0.6);
+    margin-top: 6px;
+    max-width: 28ch;
+  }
+}
+
+.xp__cap-title {
+  font-family: $font-sans;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.xp__cta {
+  align-self: flex-start;
+}
+
+/* --- Escenario ----------------------------------------------------- */
+.xp__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.xp__switch {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.xp__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(245, 240, 230, 0.16);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 230, 0.72);
+  transition:
+    border-color 0.4s $ease-out-expo,
+    color 0.4s $ease-out-expo,
+    background-color 0.4s $ease-out-expo;
+  @include focus-ring;
+
+  &:hover {
+    color: $ivory;
+    border-color: rgba(245, 240, 230, 0.4);
+  }
+
+  &.is-active {
+    background: rgba(245, 240, 230, 0.1);
+    border-color: $gold;
+    color: $ivory;
+  }
+}
+
+.xp__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 1px rgba(245, 240, 230, 0.25);
+}

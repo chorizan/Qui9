@@ -1,0 +1,257 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(90% 70% at 78% 18%, rgba(61, 44, 207, 0.55) 0%, transparent 60%),
+    radial-gradient(70% 60% at 10% 90%, rgba(36, 24, 171, 0.45) 0%, transparent 62%),
+    linear-gradient(180deg, $blue-night 0%, $blue-deep 45%, $blue-indigo 100%);
+  color: $ivory;
+  isolation: isolate;
+}
+
+/* --- Atmósfera ----------------------------------------------------- */
+.hero__atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero__aurora {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.55;
+
+  &--1 {
+    top: -20%;
+    right: -10%;
+    width: 60vw;
+    height: 60vw;
+    max-width: 900px;
+    max-height: 900px;
+    background: radial-gradient(circle, rgba(91, 63, 224, 0.5), transparent 65%);
+    animation: aurora-drift 22s $ease-soft infinite alternate;
+  }
+
+  &--2 {
+    bottom: -25%;
+    left: -15%;
+    width: 55vw;
+    height: 55vw;
+    max-width: 780px;
+    max-height: 780px;
+    background: radial-gradient(circle, rgba(201, 169, 97, 0.16), transparent 68%);
+    animation: aurora-drift 28s $ease-soft infinite alternate-reverse;
+  }
+}
+
+@keyframes aurora-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-4%, 5%, 0) scale(1.12);
+  }
+}
+
+/* --- Escenario 3D --------------------------------------------------- */
+.hero__stage {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+
+  @include from(lg) {
+    left: auto;
+    right: 0;
+    width: 54%;
+  }
+}
+
+.hero__canvas,
+.hero__fallback {
+  width: 100%;
+  height: 100%;
+}
+
+/* --- Contenido ------------------------------------------------------ */
+.hero__content {
+  position: relative;
+  z-index: 2;
+  padding-top: 120px;
+  padding-bottom: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: fluid(20, 28);
+
+  @include from(lg) {
+    max-width: 58%;
+    padding-block: 0;
+  }
+}
+
+.hero__eyebrow {
+  color: rgba(245, 240, 230, 0.62);
+  opacity: 0;
+}
+
+.hero__title {
+  margin: 0;
+  max-width: 12ch;
+}
+
+.hero__subtitle {
+  max-width: 44ch;
+  color: rgba(245, 240, 230, 0.76);
+  opacity: 0;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 8px;
+  opacity: 0;
+}
+
+.hero__marks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+  margin-top: fluid(18, 30);
+  opacity: 0;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: rgba(245, 240, 230, 0.5);
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    &::before {
+      content: '';
+      width: 4px;
+      height: 4px;
+      border-radius: 999px;
+      background: $gold;
+    }
+  }
+}
+
+/* --- Indicador de scroll -------------------------------------------- */
+.hero__scroll {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  color: rgba(245, 240, 230, 0.55);
+  @include focus-ring;
+
+  @include from(lg) {
+    left: auto;
+    right: 42px;
+    bottom: 40px;
+  }
+}
+
+.hero__scroll-text {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+
+.hero__scroll-line {
+  position: relative;
+  width: 1px;
+  height: 54px;
+  background: rgba(245, 240, 230, 0.2);
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: $gold;
+    transform: translateY(-100%);
+    animation: scroll-trail 2.4s $ease-soft infinite;
+  }
+}
+
+@keyframes scroll-trail {
+  0% {
+    transform: translateY(-100%);
+  }
+  60%,
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* --- Composición móvil ---------------------------------------------- */
+// El producto arriba y el mensaje debajo: superponerlos dejaba el titular
+// sobre el envase y no se leía ninguno de los dos.
+@include until(lg) {
+  .hero {
+    --hero-stage: calc(var(--vh, 1vh) * 34);
+    align-items: flex-start;
+  }
+
+  .hero__stage {
+    inset: 64px 0 auto 0;
+    height: var(--hero-stage);
+  }
+
+  .hero__content {
+    padding-top: calc(64px + var(--hero-stage) + 14px);
+    padding-bottom: 72px;
+  }
+
+  // El botón «Descubrir la quinua» ya cumple de invitación a bajar.
+  .hero__scroll {
+    display: none;
+  }
+}
+
+// Pantallas bajas: el producto cede altura para que la llamada a la acción
+// siga entrando en la primera pantalla.
+@media (max-height: 720px) and (max-width: 1023px) {
+  .hero {
+    --hero-stage: calc(var(--vh, 1vh) * 27);
+  }
+
+  .hero__marks {
+    display: none;
+  }
+}
+
+@include motion-reduce {
+  .hero__aurora,
+  .hero__scroll-line::after {
+    animation: none;
+  }
+
+  .hero__eyebrow,
+  .hero__subtitle,
+  .hero__actions,
+  .hero__marks,
+  .hero__scroll {
+    opacity: 1;
+  }
+}

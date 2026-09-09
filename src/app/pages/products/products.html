@@ -1,0 +1,42 @@
+<section class="catalog-page">
+  <header class="catalog-page__hero">
+    <div class="container">
+      <p class="t-eyebrow eyebrow-mark catalog-page__eyebrow">Catálogo</p>
+      <h1 class="t-display catalog-page__title">
+        <app-animated-text [lines]="['Nuestra selección.']" />
+      </h1>
+      <p class="t-lead catalog-page__lead">
+        Cuatro referencias, un mismo criterio de selección. Precios y presentaciones de
+        referencia: se actualizan con el catálogo definitivo de la marca.
+      </p>
+    </div>
+  </header>
+
+  <div class="container catalog-page__body">
+    <div class="catalog-page__filters" role="group" aria-label="Filtrar por variedad">
+      @for (filter of filters; track filter.id) {
+        <button
+          type="button"
+          class="catalog-page__filter"
+          [class.is-active]="active() === filter.id"
+          [attr.aria-pressed]="active() === filter.id"
+          (click)="setFilter(filter.id)"
+          appCursor="link"
+        >
+          {{ filter.label }}
+        </button>
+      }
+      <span class="catalog-page__count t-small">{{ products().length }} productos</span>
+    </div>
+
+    @if (products().length) {
+      <div class="catalog-page__grid" appReveal revealChildren="app-product-card" [revealStagger]="0.1">
+        @for (product of products(); track product.id; let i = $index) {
+          <app-product-card [product]="product" [index]="i" />
+        }
+      </div>
+    } @else {
+      <p class="catalog-page__empty t-lead">Aún no hay productos en esta variedad.</p>
+    }
+  </div>
+</section>

@@ -1,0 +1,135 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.footer {
+  position: relative;
+  overflow: hidden;
+  background: $blue-deep;
+  color: $ivory;
+  padding-top: fluid(64, 110);
+  padding-bottom: calc(32px + env(safe-area-inset-bottom));
+}
+
+// Halo tenue que evita que el azul plano se vea apagado.
+.footer__glow {
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  width: min(1100px, 130vw);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(61, 44, 207, 0.42) 0%, transparent 62%);
+  pointer-events: none;
+}
+
+.footer__inner {
+  position: relative;
+}
+
+.footer__top {
+  display: grid;
+  gap: fluid(40, 56);
+  grid-template-columns: 1fr;
+
+  @include from(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include from(lg) {
+    grid-template-columns: 1.6fr 1fr 1.2fr 1fr;
+    gap: 48px;
+  }
+}
+
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 36ch;
+}
+
+.footer__claim {
+  font-family: $font-display;
+  font-style: italic;
+  font-size: fluid(24, 32);
+  line-height: 1.2;
+}
+
+.footer__note {
+  color: rgba(245, 240, 230, 0.6);
+  max-width: 34ch;
+}
+
+.footer__col {
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  a,
+  .footer__static {
+    display: inline-flex;
+    flex-direction: column;
+    font-size: 14px;
+    color: rgba(245, 240, 230, 0.76);
+    transition:
+      color 0.35s $ease-out-expo,
+      transform 0.35s $ease-out-expo;
+  }
+
+  a {
+    @include focus-ring;
+
+    &:hover {
+      color: $gold-soft;
+      transform: translateX(4px);
+    }
+  }
+}
+
+.footer__title {
+  margin-bottom: 20px;
+  color: $gold;
+
+  &--spaced {
+    margin-top: 34px;
+  }
+}
+
+.footer__handle {
+  font-size: 12px;
+  color: rgba(245, 240, 230, 0.4);
+}
+
+.footer__hairline {
+  display: block;
+  height: 1px;
+  margin: fluid(48, 72) 0 26px;
+  background: linear-gradient(
+    90deg,
+    rgba(201, 169, 97, 0) 0%,
+    rgba(201, 169, 97, 0.55) 35%,
+    rgba(245, 240, 230, 0.35) 50%,
+    rgba(201, 169, 97, 0.55) 65%,
+    rgba(201, 169, 97, 0) 100%
+  );
+  transform-origin: center;
+}
+
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: rgba(245, 240, 230, 0.5);
+}
+
+.footer__top-link {
+  color: rgba(245, 240, 230, 0.72);
+
+  &:hover {
+    color: $gold-soft;
+  }
+}

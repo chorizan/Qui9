@@ -1,0 +1,257 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+/* ---------------------------------------------------------------
+   Utilidades transversales: layout, botones, líneas, reveals
+   --------------------------------------------------------------- */
+
+.container {
+  @include container;
+}
+
+.container--narrow {
+  @include container(980px);
+}
+
+.section {
+  position: relative;
+  @include section-space;
+}
+
+.section--dark {
+  background: var(--c-blue-deep);
+  color: var(--c-ivory);
+}
+
+.section--light {
+  background: var(--c-white-warm);
+  color: var(--c-blue-night);
+}
+
+.grid {
+  display: grid;
+  gap: fluid(20, 32);
+}
+
+.sr-only {
+  @include visually-hidden;
+}
+
+/* --- Botones -------------------------------------------------- */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 16px 34px;
+  border-radius: 999px;
+  font-family: $font-sans;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    color 0.4s $ease-out-expo,
+    border-color 0.4s $ease-out-expo,
+    transform 0.5s $ease-out-expo,
+    box-shadow 0.5s $ease-out-expo;
+  @include focus-ring;
+
+  // Relleno que se expande desde abajo en hover
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transform: translateY(101%);
+    transition: transform 0.55s $ease-out-expo;
+  }
+
+  .btn__icon {
+    display: inline-flex;
+    transition: transform 0.45s $ease-out-expo;
+  }
+
+  &:hover .btn__icon,
+  &:focus-visible .btn__icon {
+    transform: translateX(5px);
+  }
+
+  &:active {
+    transform: scale(0.975);
+  }
+
+  @include until(md) {
+    min-height: 50px;
+    padding: 15px 26px;
+    font-size: 12px;
+  }
+}
+
+// Sólido marfil sobre azul
+.btn--primary {
+  background: $ivory;
+  color: $blue-deep;
+  box-shadow: 0 10px 40px rgba(3, 1, 26, 0.28);
+
+  &::before {
+    background: $gold-soft;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: $blue-night;
+    box-shadow:
+      0 14px 50px rgba(201, 169, 97, 0.32),
+      0 0 0 1px rgba(224, 201, 143, 0.4);
+
+    &::before {
+      transform: translateY(0);
+    }
+  }
+}
+
+// Contorno sobre fondo azul
+.btn--ghost {
+  border: 1px solid rgba(245, 240, 230, 0.32);
+  color: $ivory;
+
+  &::before {
+    background: $ivory;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: $blue-deep;
+    border-color: $ivory;
+
+    &::before {
+      transform: translateY(0);
+    }
+  }
+}
+
+// Sólido azul sobre fondo claro
+.btn--dark {
+  background: $blue-deep;
+  color: $ivory;
+
+  &::before {
+    background: $blue-violet;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: #fff;
+    box-shadow: 0 14px 40px rgba(13, 5, 111, 0.3);
+
+    &::before {
+      transform: translateY(0);
+    }
+  }
+}
+
+// Contorno sobre fondo claro
+.btn--outline-dark {
+  border: 1px solid rgba(13, 5, 111, 0.28);
+  color: $blue-deep;
+
+  &::before {
+    background: $blue-deep;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: $ivory;
+    border-color: $blue-deep;
+
+    &::before {
+      transform: translateY(0);
+    }
+  }
+}
+
+// Enlace con subrayado que se dibuja
+.link-underline {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 3px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  @include focus-ring;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s $ease-out-expo;
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+/* --- Detalles decorativos ------------------------------------- */
+.hairline {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(201, 169, 97, 0.5) 30%,
+    rgba(201, 169, 97, 0.5) 70%,
+    transparent
+  );
+}
+
+.eyebrow-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  &::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+}
+
+/* --- Reveal por scroll (directiva appReveal) ------------------- */
+[data-reveal] {
+  will-change: transform, opacity;
+}
+
+@include motion-safe {
+  [data-reveal]:not(.is-revealed) {
+    opacity: 0;
+  }
+}
+
+/* --- Grano fílmico para superficies grandes -------------------- */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+}

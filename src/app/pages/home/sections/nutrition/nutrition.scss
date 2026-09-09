@@ -1,0 +1,60 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.nut {
+  position: relative;
+  overflow: hidden;
+  color: $ivory;
+  background:
+    radial-gradient(70% 60% at 85% 20%, rgba(61, 44, 207, 0.42) 0%, transparent 60%),
+    $blue-deep;
+  @include section-space;
+}
+
+.nut__particles {
+  z-index: 0;
+}
+
+.nut__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: fluid(40, 80);
+  align-items: center;
+
+  @include from(lg) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.nut__intro {
+  display: flex;
+  flex-direction: column;
+  gap: fluid(24, 34);
+}
+
+.nut__disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 42ch;
+  color: rgba(245, 240, 230, 0.5);
+  padding: 14px 18px;
+  border: 1px solid rgba(245, 240, 230, 0.12);
+  border-radius: 12px;
+}
+
+.nut__dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin-top: 7px;
+  border-radius: 999px;
+  background: $gold;
+}
+
+.nut__chart {
+  @include glass(0.04);
+  border-radius: 22px;
+  padding: fluid(24, 44);
+}

@@ -1,0 +1,107 @@
+<header
+  class="nav"
+  [class.is-solid]="solid()"
+  [class.is-on-light]="onLight()"
+  [class.is-hidden]="hidden()"
+  [class.is-open]="ui.menuOpen()"
+>
+  <div class="nav__inner">
+    <a
+      class="nav__brand"
+      routerLink="/"
+      (click)="ui.closeMenu()"
+      appCursor="link"
+      aria-label="QUI9 — ir al inicio"
+    >
+      <!-- Formato reducido: el símbolo completo no es legible a este tamaño. -->
+      <app-logo variant="lockup" [size]="26" />
+    </a>
+
+    <nav class="nav__links" aria-label="Navegación principal">
+      @for (link of links; track link.label) {
+        <a
+          class="nav__link"
+          [routerLink]="link.path"
+          [fragment]="link.fragment"
+          (click)="go(link, $event)"
+          appCursor="link"
+        >
+          <span class="nav__link-text">{{ link.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="nav__actions">
+      <button
+        type="button"
+        class="nav__cart"
+        [class.is-bumping]="bump()"
+        (click)="ui.openCart()"
+        appMagnetic
+        appCursor="link"
+        [attr.aria-label]="'Abrir carrito, ' + cart.count() + ' productos'"
+      >
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="nav__cart-icon">
+          <path
+            d="M6.5 8h11l-1.1 10.2a2 2 0 0 1-2 1.8H9.6a2 2 0 0 1-2-1.8L6.5 8Z"
+            stroke="currentColor"
+            stroke-width="1.2"
+          />
+          <path
+            d="M9.4 8V6.6a2.6 2.6 0 0 1 5.2 0V8"
+            stroke="currentColor"
+            stroke-width="1.2"
+            stroke-linecap="round"
+          />
+        </svg>
+        @if (cart.count() > 0) {
+          <span class="nav__cart-count t-mono-num">{{ cart.count() }}</span>
+        }
+      </button>
+
+      <button
+        type="button"
+        class="nav__burger"
+        (click)="ui.toggleMenu()"
+        [attr.aria-expanded]="ui.menuOpen()"
+        aria-controls="menu-movil"
+        [attr.aria-label]="ui.menuOpen() ? 'Cerrar menú' : 'Abrir menú'"
+      >
+        <span class="nav__burger-line"></span>
+        <span class="nav__burger-line"></span>
+      </button>
+    </div>
+  </div>
+
+  <span class="nav__hairline" aria-hidden="true"></span>
+</header>
+
+<!-- Menú móvil a pantalla completa -->
+<div
+  id="menu-movil"
+  class="menu"
+  [class.is-open]="ui.menuOpen()"
+  [attr.inert]="ui.menuOpen() ? null : ''"
+>
+  <nav class="menu__links" aria-label="Navegación móvil">
+    @for (link of links; track link.label; let i = $index) {
+      <a
+        class="menu__link"
+        [routerLink]="link.path"
+        [fragment]="link.fragment"
+        (click)="go(link, $event)"
+        [style.--i]="i"
+      >
+        <span class="menu__index t-mono-num">0{{ i + 1 }}</span>
+        <span class="menu__label">{{ link.label }}</span>
+      </a>
+    }
+  </nav>
+
+  <div class="menu__footer">
+    <p class="menu__claim">El sabor de los Andes.</p>
+    <button type="button" class="btn btn--ghost" (click)="ui.openCart()">
+      Ver carrito ({{ cart.count() }})
+    </button>
+  </div>
+</div>

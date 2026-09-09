@@ -1,0 +1,84 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.cursor {
+  position: fixed;
+  inset: 0;
+  z-index: z(cursor);
+  pointer-events: none;
+
+  // Nunca en táctil, aunque el componente llegara a montarse.
+  @media (hover: none), (pointer: coarse) {
+    display: none;
+  }
+}
+
+.cursor__dot,
+.cursor__ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 999px;
+  transform: translate3d(-50%, -50%, 0);
+  will-change: transform;
+}
+
+.cursor__dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: $gold;
+}
+
+.cursor__ring {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1px solid rgba(201, 169, 97, 0.75);
+  backdrop-filter: invert(6%);
+  transition:
+    width 0.4s $ease-out-expo,
+    height 0.4s $ease-out-expo,
+    margin 0.4s $ease-out-expo,
+    background-color 0.4s $ease-out-expo,
+    border-color 0.4s $ease-out-expo,
+    opacity 0.3s ease;
+
+  &.is-link {
+    width: 56px;
+    height: 56px;
+    margin: -28px 0 0 -28px;
+    background: rgba(201, 169, 97, 0.14);
+  }
+
+  &.is-view,
+  &.is-explore {
+    width: 92px;
+    height: 92px;
+    margin: -46px 0 0 -46px;
+    background: rgba(13, 5, 111, 0.86);
+    border-color: rgba(245, 240, 230, 0.28);
+  }
+
+  &.is-drag {
+    width: 72px;
+    height: 72px;
+    margin: -36px 0 0 -36px;
+    background: rgba(13, 5, 111, 0.7);
+  }
+
+  &.is-hidden {
+    opacity: 0;
+  }
+}
+
+.cursor__label {
+  font-family: $font-sans;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: $ivory;
+}

@@ -1,0 +1,58 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid rgba(13, 5, 111, 0.16);
+  border-radius: 999px;
+  padding: 3px;
+  background: rgba(253, 251, 246, 0.6);
+}
+
+.stepper__btn {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  font-size: 16px;
+  line-height: 1;
+  color: $blue-deep;
+  transition:
+    background-color 0.3s $ease-out-expo,
+    color 0.3s $ease-out-expo,
+    opacity 0.3s ease;
+  @include focus-ring($blue-deep);
+
+  &:hover:not(:disabled) {
+    background: $blue-deep;
+    color: $ivory;
+  }
+
+  &:disabled {
+    opacity: 0.32;
+    cursor: not-allowed;
+  }
+}
+
+.stepper__value {
+  min-width: 30px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: $blue-deep;
+}
+
+.stepper--compact {
+  .stepper__btn {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+  .stepper__value {
+    min-width: 24px;
+    font-size: 13px;
+  }
+}

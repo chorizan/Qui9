@@ -1,0 +1,34 @@
+<ul class="nutrition">
+  @for (fact of facts(); track fact.id; let i = $index) {
+    <li class="nutrition__row" [style.--i]="i">
+      <div class="nutrition__head">
+        <span class="nutrition__label">{{ fact.label }}</span>
+        <span class="nutrition__value t-mono-num" [class.is-pending]="fact.value === null">
+          @if (fact.value !== null) {
+            {{ fact.value }}<span class="nutrition__unit">{{ fact.unit }}</span>
+          } @else {
+            Por confirmar
+          }
+        </span>
+      </div>
+
+      <div
+        class="nutrition__track"
+        role="img"
+        [attr.aria-label]="
+          fact.value !== null
+            ? fact.label + ': ' + fact.value + ' ' + fact.unit + ' ' + fact.per
+            : fact.label + ': valor pendiente de análisis'
+        "
+      >
+        <span
+          class="nutrition__bar"
+          [class.is-pending]="fact.value === null"
+          [style.width.%]="width(fact)"
+        ></span>
+      </div>
+
+      <p class="nutrition__note t-small">{{ fact.per }} · {{ fact.note }}</p>
+    </li>
+  }
+</ul>

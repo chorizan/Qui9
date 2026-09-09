@@ -1,0 +1,35 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.catalog {
+  background: $white-warm;
+  color: $blue-night;
+}
+
+.catalog__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: fluid(44, 72);
+}
+
+.catalog__all {
+  color: $blue-deep;
+  padding-bottom: 6px;
+}
+
+.catalog__grid {
+  display: grid;
+  gap: fluid(22, 34);
+  grid-template-columns: 1fr;
+
+  @include from(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include from(lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

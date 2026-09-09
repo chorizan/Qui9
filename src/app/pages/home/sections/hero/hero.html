@@ -1,0 +1,65 @@
+<section class="hero grain" #root aria-labelledby="hero-title">
+  <!-- Capa atmosférica: degradados azules + semillas flotando -->
+  <div class="hero__atmosphere" aria-hidden="true">
+    <span class="hero__aurora hero__aurora--1"></span>
+    <span class="hero__aurora hero__aurora--2"></span>
+    <!-- Densidad reducida: en el hero las semillas 3D ya aportan volumen. -->
+    <app-particle-field tint="rgba(245, 240, 230, 1)" [density]="0.65" />
+  </div>
+
+  <!-- Escenario 3D -->
+  <div class="hero__stage" #stage>
+    @if (webgl()) {
+      <canvas
+        #canvas
+        class="hero__canvas"
+        role="img"
+        aria-label="Envase de quinua peruana QUI9 flotando entre granos, en 3D"
+      ></canvas>
+    } @else {
+      <app-img
+        class="hero__fallback"
+        [image]="fallbackImage"
+        [priority]="true"
+        sizes="(min-width: 1024px) 46vw, 84vw"
+        fit="contain"
+      />
+    }
+  </div>
+
+  <div class="container hero__content">
+    <p class="t-eyebrow hero__eyebrow hero__reveal">Quinua peruana · Origen Andes</p>
+
+    <h1 class="t-hero hero__title" id="hero-title">
+      <app-animated-text [lines]="['El sabor', 'de los Andes.']" [autoplay]="false" />
+    </h1>
+
+    <p class="t-lead hero__subtitle hero__reveal">
+      Quinua peruana seleccionada desde su origen, llevada hasta tu mesa con la calidad que
+      merece.
+    </p>
+
+    <div class="hero__actions hero__reveal">
+      <button type="button" class="btn btn--primary" (click)="discover()" appMagnetic appCursor="link">
+        Descubrir la quinua
+        <span class="btn__icon" aria-hidden="true">↓</span>
+      </button>
+
+      <a class="btn btn--ghost" routerLink="/productos" appMagnetic appCursor="link">
+        Comprar ahora
+        <span class="btn__icon" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <ul class="hero__marks hero__reveal">
+      <li>Selección por lote</li>
+      <li>Envase con barrera de luz</li>
+      <li>Trazabilidad de origen</li>
+    </ul>
+  </div>
+
+  <button type="button" class="hero__scroll hero__reveal" (click)="discover()" aria-label="Bajar a la siguiente sección">
+    <span class="hero__scroll-text">Scroll</span>
+    <span class="hero__scroll-line" aria-hidden="true"></span>
+  </button>
+</section>

@@ -1,0 +1,23 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.recipes {
+  background: $white-warm;
+  color: $blue-night;
+}
+
+.recipes__grid {
+  display: grid;
+  gap: fluid(26, 40);
+  margin-top: fluid(44, 72);
+  grid-template-columns: 1fr;
+
+  @include from(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include from(xl) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 26px;
+  }
+}

@@ -1,0 +1,317 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.cart-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: z(cart);
+  background: rgba(3, 1, 26, 0.55);
+  backdrop-filter: blur(6px);
+}
+
+.cart {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: calc(#{z(cart)} + 1);
+  display: flex;
+  flex-direction: column;
+  width: min(440px, 100vw);
+  background: $white-warm;
+  color: $blue-night;
+  box-shadow: -30px 0 80px rgba(3, 1, 26, 0.28);
+
+  // En móvil ocupa toda la pantalla.
+  @include until(md) {
+    width: 100vw;
+  }
+}
+
+.cart__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 26px 24px 20px;
+  border-bottom: 1px solid rgba(13, 5, 111, 0.1);
+}
+
+.cart__eyebrow {
+  color: $gold;
+  margin-bottom: 8px;
+}
+
+.cart__close {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(13, 5, 111, 0.14);
+  color: $blue-deep;
+  transition:
+    background-color 0.35s $ease-out-expo,
+    color 0.35s $ease-out-expo,
+    transform 0.35s $ease-out-expo;
+  @include focus-ring($blue-deep);
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover {
+    background: $blue-deep;
+    color: $ivory;
+    transform: rotate(90deg);
+  }
+}
+
+/* --- Envío ------------------------------------------------------- */
+.cart__shipping {
+  padding: 16px 24px;
+  background: rgba(232, 223, 205, 0.4);
+
+  p {
+    color: $stone-dark;
+    margin-bottom: 10px;
+  }
+
+  strong {
+    color: $blue-deep;
+    font-weight: 600;
+  }
+}
+
+.cart__shipping-track {
+  display: block;
+  height: 2px;
+  background: rgba(13, 5, 111, 0.12);
+  overflow: hidden;
+}
+
+.cart__shipping-bar {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, $blue-deep, $gold);
+  transition: width 0.7s $ease-out-expo;
+}
+
+/* --- Líneas ------------------------------------------------------- */
+.cart__items {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 8px 24px;
+}
+
+.cart-line {
+  display: grid;
+  grid-template-columns: 84px 1fr auto;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(13, 5, 111, 0.08);
+  animation: line-in 0.5s $ease-out-expo both;
+}
+
+.cart-line__media {
+  display: block;
+  width: 84px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: $ivory;
+}
+
+.cart-line__body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.cart-line__name {
+  font-family: $font-display;
+  font-size: 20px;
+  line-height: 1.15;
+  @include focus-ring($blue-deep);
+
+  &:hover {
+    color: $blue-violet;
+  }
+}
+
+.cart-line__meta {
+  color: $stone;
+}
+
+.cart-line__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.cart-line__price {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cart-line__remove {
+  align-self: flex-start;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  color: $stone;
+  border-radius: 999px;
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease;
+  @include focus-ring($blue-deep);
+
+  svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  &:hover {
+    color: $blue-deep;
+    background: rgba(13, 5, 111, 0.07);
+  }
+}
+
+/* --- Vacío -------------------------------------------------------- */
+.cart__empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 40px 32px;
+  text-align: center;
+
+  .t-body {
+    color: $stone-dark;
+    max-width: 30ch;
+  }
+
+  .btn {
+    margin-top: 12px;
+  }
+}
+
+.cart__empty-mark {
+  width: 54px;
+  height: 54px;
+  margin-bottom: 8px;
+  background: rgba(13, 5, 111, 0.5);
+  mask: url('/assets/brand/qui9-mark.png') no-repeat center / contain;
+  -webkit-mask: url('/assets/brand/qui9-mark.png') no-repeat center / contain;
+}
+
+/* --- Totales ------------------------------------------------------ */
+.cart__foot {
+  padding: 22px 24px calc(24px + env(safe-area-inset-bottom));
+  border-top: 1px solid rgba(13, 5, 111, 0.1);
+  background: rgba(245, 240, 230, 0.5);
+}
+
+.cart__totals {
+  margin-bottom: 18px;
+}
+
+.cart__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 5px 0;
+  font-size: 14px;
+  color: $stone-dark;
+
+  &--total {
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(13, 5, 111, 0.1);
+    color: $blue-deep;
+
+    dt {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    dd {
+      font-family: $font-display;
+      font-size: 26px;
+    }
+  }
+}
+
+.cart__checkout {
+  width: 100%;
+}
+
+.cart__continue {
+  display: block;
+  margin: 16px auto 0;
+  color: $stone-dark;
+}
+
+/* --- Animaciones de entrada y salida (Angular animate.enter/leave) - */
+.backdrop-in {
+  animation: fade-in 0.45s $ease-out-quart both;
+}
+
+.backdrop-out {
+  animation: fade-in 0.35s $ease-out-quart reverse both;
+}
+
+.cart-in {
+  animation: slide-in 0.62s $ease-out-expo both;
+}
+
+.cart-out {
+  animation: slide-in 0.42s $ease-in-out-quint reverse both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes line-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@include motion-reduce {
+  .cart-in,
+  .cart-out,
+  .backdrop-in,
+  .backdrop-out,
+  .cart-line {
+    animation-duration: 0.01ms;
+  }
+}

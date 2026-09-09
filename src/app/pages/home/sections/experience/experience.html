@@ -1,0 +1,52 @@
+<section class="xp" id="experiencia-3d" aria-labelledby="xp-title">
+  <div class="xp__glow" aria-hidden="true"></div>
+
+  <div class="container xp__inner">
+    <div class="xp__head">
+      <app-section-header
+        eyebrow="Experiencia 3D"
+        [lines]="['Mírala', 'de cerca.']"
+        text="El mismo producto que recibirás en casa, girando en tu pantalla. Explóralo con el ratón, el dedo o el teclado."
+      />
+
+      <ul class="xp__caps" appReveal revealChildren="li" [revealStagger]="0.1">
+        @for (cap of capabilities; track cap.title) {
+          <li>
+            <h3 class="xp__cap-title">{{ cap.title }}</h3>
+            <p class="t-small">{{ cap.text }}</p>
+          </li>
+        }
+      </ul>
+
+      <a class="btn btn--ghost xp__cta" routerLink="/productos" appCursor="link">
+        Ver la selección completa
+        <span class="btn__icon" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <div class="xp__stage" appReveal="scale">
+      <h2 class="sr-only" id="xp-title">Visor 3D del producto</h2>
+
+      <app-product-viewer
+        [fallbackImage]="selected().image"
+        [grainColor]="selected().grainColor"
+        [modelUrl]="selected().model3D ?? 'assets/3d/quinoa.glb'"
+      />
+
+      <div class="xp__switch" role="group" aria-label="Elegir variedad para el visor">
+        @for (product of catalog; track product.id) {
+          <button
+            type="button"
+            class="xp__chip"
+            [class.is-active]="product.id === selected().id"
+            [attr.aria-pressed]="product.id === selected().id"
+            (click)="select(product)"
+          >
+            <span class="xp__dot" [style.background]="product.grainColor" aria-hidden="true"></span>
+            {{ product.shortName }}
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+</section>

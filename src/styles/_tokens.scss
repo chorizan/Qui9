@@ -1,0 +1,71 @@
+// =============================================================
+// QUI9 — Design tokens
+// Identidad: azul profundo #0d056f como protagonista absoluto.
+// =============================================================
+@use 'sass:map';
+
+// --- Paleta azul (marca) -------------------------------------
+$blue-abyss: #03011a; // azul nocturno extremo (fondos cinematográficos)
+$blue-night: #05012f; // azul nocturno
+$blue-deep: #0d056f; // ★ AZUL PROFUNDO — color principal de marca
+$blue-indigo: #170c8c; // azul índigo
+$blue-ultramarine: #2418ab; // azul ultramarino
+$blue-violet: #3d2ccf; // azul violeta
+$blue-muted: #5b5691; // azul ligeramente desaturado
+$blue-mist: #9d99c4; // azul neblina (textos secundarios sobre azul)
+
+// --- Neutros cálidos -----------------------------------------
+$white-warm: #fdfbf6;
+$ivory: #f5f0e6;
+$beige: #e7dfcd;
+$sand: #d8ccb4;
+$stone: #8c8896;
+$stone-dark: #4a4757;
+
+// --- Acentos (uso mínimo) ------------------------------------
+$gold: #c9a961;
+$gold-soft: #e0c98f;
+$green: #4b6b52;
+
+// --- Tipografía ----------------------------------------------
+$font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+$font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+// --- Breakpoints ---------------------------------------------
+$bp: (
+  xs: 320px,
+  sm: 375px,
+  ms: 414px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  xxl: 1440px,
+  xxxl: 1920px,
+);
+
+// --- Layout ---------------------------------------------------
+$max-width: 1440px;
+$gutter-mobile: 20px;
+$gutter-tablet: 40px;
+$gutter-desktop: 72px;
+
+// --- Curvas de animación --------------------------------------
+$ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+$ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+$ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+$ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+// --- Z-index ---------------------------------------------------
+$z: (
+  canvas: 0,
+  content: 10,
+  navbar: 700,
+  cart: 800,
+  menu: 850,
+  cursor: 900,
+  preloader: 1000,
+);
+
+@function z($key) {
+  @return map.get($z, $key);
+}

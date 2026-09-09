@@ -1,0 +1,395 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.checkout {
+  background: $white-warm;
+  color: $blue-night;
+  padding-top: fluid(110, 160);
+  padding-bottom: fluid(70, 120);
+  min-height: 80vh;
+}
+
+.checkout__head {
+  margin-bottom: fluid(34, 54);
+
+  .t-eyebrow {
+    color: $gold;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    color: $blue-deep;
+  }
+}
+
+.checkout__layout {
+  display: grid;
+  gap: fluid(32, 56);
+
+  @include from(lg) {
+    grid-template-columns: 1.35fr 0.65fr;
+    align-items: start;
+  }
+}
+
+/* --- Formulario ---------------------------------------------------- */
+.fieldset {
+  border: none;
+  padding: 0 0 fluid(28, 40);
+  margin-bottom: fluid(28, 40);
+  border-bottom: 1px solid rgba(13, 5, 111, 0.1);
+}
+
+.fieldset__legend {
+  font-family: $font-sans;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: $gold;
+  margin-bottom: 24px;
+}
+
+.field-grid {
+  display: grid;
+  gap: 18px;
+
+  @include from(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &--full {
+    @include from(md) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $stone-dark;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid rgba(13, 5, 111, 0.16);
+    border-radius: 10px;
+    background: $ivory;
+    color: $blue-night;
+    font-size: 15px;
+    transition:
+      border-color 0.35s $ease-out-expo,
+      box-shadow 0.35s $ease-out-expo,
+      background-color 0.35s $ease-out-expo;
+
+    &::placeholder {
+      color: rgba(140, 136, 150, 0.8);
+    }
+
+    &:hover {
+      border-color: rgba(13, 5, 111, 0.3);
+    }
+
+    &:focus {
+      outline: none;
+      background: $white-warm;
+      border-color: $blue-deep;
+      box-shadow: 0 0 0 3px rgba(13, 5, 111, 0.12);
+    }
+
+    &.ng-invalid.ng-touched {
+      border-color: #a33a3a;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 90px;
+  }
+}
+
+.field__error {
+  font-size: 12px;
+  color: #a33a3a;
+}
+
+/* --- Opciones (radio) ---------------------------------------------- */
+.options {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 24px;
+
+  @include from(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  &--grid {
+    margin-bottom: 16px;
+
+    @include from(md) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}
+
+.option {
+  position: relative;
+  display: block;
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+
+    &:focus-visible + .option__body {
+      outline: 2px solid $gold;
+      outline-offset: 3px;
+    }
+
+    &:checked + .option__body {
+      border-color: $blue-deep;
+      background: rgba(13, 5, 111, 0.06);
+
+      &::after {
+        transform: scale(1);
+      }
+    }
+  }
+}
+
+.option__body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 16px 44px 16px 18px;
+  border: 1px solid rgba(13, 5, 111, 0.16);
+  border-radius: 12px;
+  background: $ivory;
+  height: 100%;
+  transition:
+    border-color 0.35s $ease-out-expo,
+    background-color 0.35s $ease-out-expo;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    width: 10px;
+    height: 10px;
+    margin-top: -5px;
+    border-radius: 999px;
+    background: $gold;
+    transform: scale(0);
+    transition: transform 0.35s $ease-out-expo;
+  }
+}
+
+.option__label {
+  font-size: 14px;
+  font-weight: 600;
+  color: $blue-deep;
+}
+
+.option__note {
+  color: $stone;
+}
+
+.checkout__legal {
+  color: $stone;
+  max-width: 52ch;
+}
+
+.checkout__submit {
+  width: 100%;
+
+  @include from(md) {
+    width: auto;
+    min-width: 280px;
+  }
+}
+
+/* --- Resumen -------------------------------------------------------- */
+.summary {
+  padding: fluid(22, 30);
+  border-radius: 20px;
+  background: $ivory;
+
+  @include from(lg) {
+    position: sticky;
+    top: 100px;
+  }
+}
+
+.summary__title {
+  font-family: $font-display;
+  font-size: 26px;
+  font-weight: 400;
+  color: $blue-deep;
+  margin-bottom: 20px;
+}
+
+.summary__empty {
+  color: $stone-dark;
+
+  a {
+    display: block;
+    margin-top: 10px;
+    color: $blue-deep;
+  }
+}
+
+.summary__items {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(13, 5, 111, 0.1);
+}
+
+.summary__item {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.summary__media {
+  display: block;
+  width: 64px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: $white-warm;
+}
+
+.summary__body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.summary__name {
+  font-size: 14px;
+  font-weight: 500;
+  color: $blue-deep;
+}
+
+.summary__price {
+  font-size: 14px;
+  font-weight: 600;
+  color: $blue-deep;
+}
+
+.summary__totals {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 14px;
+    color: $stone-dark;
+  }
+}
+
+.summary__total {
+  margin-top: 10px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(13, 5, 111, 0.1);
+  color: $blue-deep !important;
+
+  dt {
+    font-weight: 600;
+  }
+
+  dd {
+    font-family: $font-display;
+    font-size: 24px;
+  }
+}
+
+/* --- Confirmación --------------------------------------------------- */
+.confirm {
+  max-width: 620px;
+  margin-inline: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding-block: fluid(20, 50);
+
+  h1 {
+    color: $blue-deep;
+  }
+
+  .t-lead {
+    color: $stone-dark;
+  }
+
+  strong {
+    color: $blue-deep;
+    font-weight: 600;
+  }
+}
+
+.confirm__mark {
+  width: 64px;
+  height: 64px;
+  background: $blue-deep;
+  mask: url('/assets/brand/qui9-mark.png') no-repeat center / contain;
+  -webkit-mask: url('/assets/brand/qui9-mark.png') no-repeat center / contain;
+}
+
+.confirm__eyebrow {
+  color: $gold;
+}
+
+.confirm__data {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  margin-top: 8px;
+
+  dt {
+    color: $stone;
+    margin-bottom: 6px;
+  }
+
+  dd {
+    font-family: $font-display;
+    font-size: 24px;
+    color: $blue-deep;
+  }
+}
+
+.confirm__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.confirm__note {
+  color: $stone;
+}

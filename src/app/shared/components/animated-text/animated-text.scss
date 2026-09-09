@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+
+.line {
+  display: block;
+}
+
+// `splitIntoWords` genera .word > .word__inner; el contenedor recorta para
+// que la palabra pueda entrar desde abajo sin desbordar la línea.
+:host ::ng-deep .word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  // Evita que las tildes y descendentes se recorten.
+  padding-block: 0.12em;
+  margin-block: -0.12em;
+}
+
+:host ::ng-deep .word__inner {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}

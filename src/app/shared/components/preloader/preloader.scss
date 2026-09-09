@@ -1,0 +1,128 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: z(preloader);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  background:
+    radial-gradient(120% 90% at 50% 0%, $blue-indigo 0%, transparent 60%),
+    radial-gradient(100% 80% at 50% 110%, $blue-violet 0%, transparent 55%),
+    $blue-deep;
+  color: $ivory;
+  clip-path: inset(0% 0% 0% 0%);
+  will-change: clip-path;
+}
+
+.preloader__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  text-align: center;
+}
+
+.preloader__logo {
+  animation: logo-breathe 3.4s $ease-soft infinite;
+}
+
+.preloader__claim {
+  font-family: $font-display;
+  font-style: italic;
+  font-size: fluid(17, 22);
+  color: rgba(245, 240, 230, 0.72);
+  letter-spacing: 0.01em;
+}
+
+.preloader__bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: fluid(32, 56);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-inline: $gutter-mobile;
+}
+
+.preloader__count {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  color: rgba(245, 240, 230, 0.6);
+}
+
+.preloader__track {
+  position: relative;
+  width: min(280px, 60vw);
+  height: 1px;
+  background: rgba(245, 240, 230, 0.16);
+  overflow: hidden;
+}
+
+.preloader__bar {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, $gold, $gold-soft);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+// Lluvia de semillas: eco del racimo del logotipo.
+.preloader__grain {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.seed {
+  position: absolute;
+  top: -8%;
+  left: calc(8% + var(--i) * 10.5%);
+  width: 5px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(245, 240, 230, 0.5);
+  animation: seed-fall 4.2s linear infinite;
+  animation-delay: calc(var(--i) * -0.47s);
+}
+
+@keyframes seed-fall {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(115vh) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes logo-breathe {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.95;
+  }
+  50% {
+    transform: translateY(-6px) scale(1.02);
+    opacity: 1;
+  }
+}
+
+@include motion-reduce {
+  .seed,
+  .preloader__logo {
+    animation: none;
+  }
+}

@@ -1,0 +1,73 @@
+<footer class="footer" id="contacto">
+  <div class="footer__glow" aria-hidden="true"></div>
+
+  <div class="container footer__inner">
+    <div class="footer__top" appReveal revealChildren=".footer__reveal">
+      <div class="footer__brand footer__reveal">
+        <app-logo [size]="88" />
+        <p class="footer__claim">{{ site.claim }}</p>
+        <p class="footer__note t-small">
+          Quinua peruana seleccionada en los Andes y envasada para conservar el grano.
+        </p>
+      </div>
+
+      <nav class="footer__col footer__reveal" aria-label="Navegación del pie">
+        <h2 class="t-eyebrow footer__title">Navegación</h2>
+        <ul>
+          @for (link of links.navegacion; track link.label) {
+            <li>
+              <a
+                [routerLink]="link.path"
+                [fragment]="link.fragment"
+                (click)="navigate(link.path, link.fragment, $event)"
+                appCursor="link"
+              >
+                {{ link.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      </nav>
+
+      <div class="footer__col footer__reveal">
+        <h2 class="t-eyebrow footer__title">Contacto</h2>
+        <ul>
+          <li><a [href]="'mailto:' + site.email" appCursor="link">{{ site.email }}</a></li>
+          <li><a [href]="'tel:' + site.phone" appCursor="link">{{ site.phone }}</a></li>
+          <li><span class="footer__static">{{ site.address }}</span></li>
+        </ul>
+
+        <h2 class="t-eyebrow footer__title footer__title--spaced">Redes</h2>
+        <ul class="footer__social">
+          @for (network of site.social; track network.label) {
+            <li>
+              <a [href]="network.url" target="_blank" rel="noopener" appCursor="link">
+                {{ network.label }}
+                <span class="footer__handle">{{ network.handle }}</span>
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div class="footer__col footer__reveal">
+        <h2 class="t-eyebrow footer__title">Legal</h2>
+        <ul>
+          @for (link of links.legal; track link.label) {
+            <li><a [routerLink]="link.path" appCursor="link">{{ link.label }}</a></li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <!-- Línea dorada extremadamente sutil -->
+    <span class="footer__hairline" appReveal="line" aria-hidden="true"></span>
+
+    <div class="footer__bottom">
+      <p class="t-small">© {{ year }} {{ site.name }}. Todos los derechos reservados.</p>
+      <button type="button" class="footer__top-link link-underline" (click)="toTop()">
+        Volver arriba
+      </button>
+    </div>
+  </div>
+</footer>
